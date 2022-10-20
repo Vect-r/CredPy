@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+	<title>LedPy - Add Account</title>
+</head>
+<body>
+	{% include 'navbar.html' %}
+	<div class="page">
+	<form action='/addAccount' method='post'>
+		<h1 class="new-h1">Add Account</h1>
+		{% csrf_token %}
+		<div class="input-area">
+			<label for="domain">Fullname</label></br>
+			<input type="text" id='name' name="name" placeholder="Enter Fullname">
+		</div>
+		<div class="input-area">
+			<label for="address">Address</label></br>
+			<input type="text" id='address' name="address" placeholder="Enter Address">
+		</div>
+		<div class="input-area">
+			<label for="e-mail">Enter E-mail</label></br>
+			<input type="email" id='e-mail' name="e-mail" placeholder="Enter e-mail">
+		</div>
+		<div class="input-area">
+			<label for="phno">Phone Number</label></br>
+			<input type="text" id='phno' name="phno" placeholder="Enter Phoneno">
+		</div>
+		<button type="submit" onclick="this.disabled=true,this.form.submit();" class="button1">Add</button>
+		<a href="/" class="b-btn">Discard</a>
+	</form>		
+	</div>
+</body>
+</html>

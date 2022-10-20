@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+	<title>LedPy - Edit Account</title>
+</head>
+<body>
+	{% include 'navbar.html' %}
+	<div class="page">
+	<form method='post'>
+		<h1 class="new-h1">Edit Account</h1>
+		{% csrf_token %}
+		<div class="input-area">
+			<label for="domain">Fullname</label></br>
+			<input type="hidden" name="accid" value="{{d.AccID}}">
+			<input type="text" id='name' name="name" placeholder="Enter Fullname" value="{{d.FullName}}">
+		</div>
+		<div class="input-area">
+			<label for="address">Address</label></br>
+			<input type="text" id='address' name="address" placeholder="Enter Address" value="{{d.Address}}">
+		</div>
+		<div class="input-area">
+			<label for="e-mail">Enter E-mail</label></br>
+			<input type="email" id='e-mail' name="e-mail" placeholder="Enter e-mail" value="{{d.Email}}">
+		</div>
+		<div class="input-area">
+			<label for="phno">Phone Number</label></br>
+			<input type="text" id='phno' name="phno" placeholder="Enter Phoneno" value="{{d.phno}}">
+		</div>
+		<button type="submit" onclick="this.disabled=true,this.form.submit();" class="button1">Edit</button>
+		<a href="/view/{{d.AccID}}" class="b-btn">Discard</a>
+	</form>		
+	</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+	<title>LedPy</title>
+</head>
+<body>
+	{%include 'navbar.html' %}
+	<div class="page">
+		<form novalidate="novalidate">
+			<input type="search" name="search" placeholder="Search..." autofocus required /><br>
+			<div>
+				<label for+="sdate">From...</label>
+				<input type="date" id="sdate" name="sdate" placeholder="From..." {{fdate}}>
+			</div>
+			<div>
+				<label for="edate">To...</label>
+				<input type="date" id="edate" name="edate" placeholder="To.." {{edate}}>
+			</div>
+			<button type="submit" class="menu-btn" id="add-btn">Search</button>
+			<button type="submit" style="margin-top: 2px;" formaction="/genreportdate" class="menu-btn" id="add-btn">PDF Report</button>
+		</form>
+		<table>
+			<th>Account Name</th>
+			<th>Date</th>
+			<th>Debit</th>
+			<th>Credit</th>
+			<th>Description</th>
+			{% for i in d %}
+				<tr onclick="window.location='/update/{{i.TranID}}'" name='dd' id="dd{{i.TranID}}">
+					<!--<a onclick="onView(this.id)" name="dd" id="dd{{i.TranID}}" class="tranno">-->
+					<td>{{i.AccName}}</td>
+					<td>{{i.Date}}</td>
+					<td class="dr">{{i.DrAmnt}}</td>
+					<td class="cr">{{i.CrAmnt}}</td>
+					<td>{{i.Desc}}</td>
+				</tr>
+			{% empty %}
+				<h1>No Matching Records Found</h1>
+			{% endfor %}
+			<tfoot style="border-top: solid 2px black;">
+					<td></td>
+					<td>Total</td>
+					<td>{{dr}}</td>
+					<td>{{cr}}</td>
+					<td></td>
+				</tfoot>
+		</table>
+	</div>
+</body>
+</html>

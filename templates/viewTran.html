@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+	<title>LedPy</title>
+</head>
+<body>
+	{%include 'navbar-acc.html'%}
+  <div class="page">
+		<h1>{{name}}</h1>
+		<div style="margin-left: 10px;">
+			<button onclick="window.location='/addTran/{{id}}'" class="menu-btn" id="add-btn">+</button>
+			<a class="menu-btn" id="add-btn" href="/generate/{{id}}">PDF Report</a>
+			<a class="menu-btn" id="add-btn" href="/">Go Back</a>
+		</div>
+		<table>
+			<th>Date</th>
+			<th>Debit</th>
+			<th>Credit</th>
+			<th>Description</th>
+			<th>Balance</th>
+			{% for i,j in data %}
+				<tr onclick="window.location='/update/{{i.TranID}}'" name='dd' id="dd{{i.TranID}}">
+					<!--<a onclick="onView(this.id)" name="dd" id="dd{{i.TranID}}" class="tranno">-->
+					<td>{{i.Date}}</td>
+					<td class="dr">{{i.DrAmnt}}</td>
+					<td class="cr">{{i.CrAmnt}}</td>
+					<td>{{i.Desc}}</td>
+					<td>{{j}}</td>
+				</tr>
+			{% empty %}
+				<h1>No Records Found</h1>
+			{% endfor %}
+			<tfoot style="border-top: solid 2px black;">
+					<td>Total</td>
+					<td>{{dr}}</td>
+					<td>{{cr}}</td>
+					<td></td>
+					<td></td>
+				</tfoot>
+		</table>
+	</div>

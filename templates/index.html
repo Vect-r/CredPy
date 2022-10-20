@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+	<script type="text/javascript" src="{% static "jquery-3.4.1.min.js" %}"></script>
+	<title>LedPy</title>
+</head>
+<body>
+	{%include 'navbar.html' %}
+	<div class="page">
+		<h1>Accounts</h1>
+		<input type="search" id="user-input" name="search" placeholder="Search..." autofocus required />
+		<i id="search-icon" class="fa fa-search" aria-hidden="true"></i>
+		<div id="replaceable-content">
+			{% include 'index-replace.html' %}	
+		</div>
+		<script type="text/javascript" src="{% static "main.js" %}"></script>
+	</div>
+	</body>
+</html>

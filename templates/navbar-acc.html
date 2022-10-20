@@ -1,0 +1,44 @@
+<div class="topnav" id="myTopnav">
+	<a href="javascript:void(0);" style="font-size:15px;" class="icon" onclick="openNav()">&#9776;</a>
+	<a href="/" style="">LedPy</a>
+</div>
+<div id="mySidenav" class="sidenav">
+  	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  	<a href="/">LedPy</a>
+  	<button class="dropdown-btn">Manage<i class="fa fa-caret-down"></i>
+  	</button>
+  	<div class="dropdown-container">
+  		<a href="/viewAccount/{{id}}/{{name}}">View Information</a>
+      	<a href="/editAccount/{{id}}/{{name}}">Edit Account</a>
+      	<a href="/delAccount/{{id}}/{{name}}">Delete Account</a>
+  	</div>
+  		<a href="/reports">Reports</a>
+  		<a href="/about">About</a>
+  		<a href="/logout">Logout</a>
+</div>
+	<script>
+	var dropdown = document.getElementsByClassName("dropdown-btn");
+	var i;
+
+	for (i = 0; i < dropdown.length; i++) {
+  		dropdown[i].addEventListener("click", function() {
+    		this.classList.toggle("active");
+    		var dropdownContent = this.nextElementSibling;
+    		if (dropdownContent.style.display === "block") {
+      			dropdownContent.style.display = "none";
+    		} else {
+      		dropdownContent.style.display = "block";
+    		}
+    	});
+	}
+
+	function openNav() {
+  		document.getElementById("mySidenav").style.width = "250px";
+  		document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+	}
+
+	function closeNav() {
+  		document.getElementById("mySidenav").style.width = "0";
+  		document.body.style.backgroundColor = "white";
+	}
+	</script>

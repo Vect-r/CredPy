@@ -1,0 +1,21 @@
+{% if accounts %}
+    <table>
+            <tbody>
+                <tr>
+                    <th style="border-bottom: none;">ID</th>
+                    <th style="border-bottom: none;">Name</th>
+                    <th style="border-bottom: none;">Balance</th>
+                </tr>
+                {% for i,j in accounts%}
+                <tr onclick="window.location='/view/{{i.0}}';">
+                    <td>{{i.0}}</td>
+                    <td>{{i.1}}</td>
+                    <td>{{j.Balance}}</td>
+                </tr>
+                {%empty%}
+                <h2>No Accounts Found</h2>
+                {%endfor%}
+            </tbody>
+        </table>
+{% endif %}
+        

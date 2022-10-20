@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+	<title>LedPy</title>
+</head>
+<body>
+	{%include 'navbar.html'%}
+	<div class="page">
+		<h1>View Account</h1>
+		<div class="info">
+			<strong>Name: </strong><span>{{data.FullName}}</span></br>
+			<strong>Address: </strong><span>{{data.Address|default_if_none:""}}</span></br>
+			<strong>E-Mail: </strong><span>{{data.Email|default_if_none:" "}}</span></br>
+			<strong>Phone No: </strong><span>{{data.phno|default_if_none:" "}}</span></br>
+			<strong>Date Created: </strong><span>{{data.DateCreated}}</span></br>
+		</div>
+	</div>
+</body>
+</html>

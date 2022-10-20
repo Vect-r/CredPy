@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Add Transaction</title>
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+</head>
+<body>
+  {% include 'navbar.html' %}
+	<div class="page">
+		<h2>Edit Transaction</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <input type="number" id="Amnt" name="tranid" readonly="readonly" value="{{data.TranID}}">
+          </div>
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <div>
+            <label for="CrAmnt">Amount Received Cr.</label>
+            <input type="number" name="vCrAmnt" id="Amnt" value="{{data.CrAmnt}}">
+          </div>
+          <div>
+            <label for="DrAmnt">Amount Give Dr.</label>
+            <input type="number" name="vDrAmnt" id="Amnt" value="{{data.DrAmnt}}">
+          </div>
+          <div>
+            <label for="desc">Description</label>
+            <input type="text" name="vdesc" id="Amnt" value="{{data.Desc}}">
+          </div></br>
+          <div>
+            <input type="date" name="vdate" id="vdate" min="2000-04-01" value="{{data.Date}}">
+          </div>
+          <footer>
+            <button type="submit" name="editTr" onclick="this.disabled=true,this.form.submit()" id="btn-theme">Edit</button>
+            <a class="a-btn-gray" onclick="window.location='/delete/{{data.TranID}}'">Delete</a>
+            <button id="btn-theme-grey" onclick="window.location='/'">Discard Changes</button>
+          </footer>
+        </form>
+        <script type="text/javascript">
+          document.getElementById('vdate').value="{{data.Date | date:'Y-m-d'}}";
+        </script>
