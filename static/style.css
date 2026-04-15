@@ -392,9 +392,10 @@ h1 {
 }
 
 input[type="search"] {
-  width: 100%;
+  width: 99%;
   padding: 10px;
-  margin-bottom: 2px;
+  margin: auto;
+  display: block;
 }
 
 .abt {

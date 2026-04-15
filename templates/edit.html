@@ -1,38 +1,70 @@
 <!DOCTYPE html>
-{% load static %}
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
-	<title>LedPy - Edit Account</title>
-</head>
+{%include 'base.html'%}
+<style type="text/css">
+    html, body{
+      overflow-x: hidden;
+    }
+
+    .default input:focus + label {
+      color: purple !important;
+    }
+
+      /* label underline focus color */
+    .default input:focus {
+      border-bottom: 1px solid purple !important;
+      box-shadow: 0 1px 0 0 purple !important;
+    }
+
+    .default .prefix.active{
+      color: purple !important;
+    }
+
+    .default textarea:focus + label {
+      color: purple !important;
+    }
+
+    .default textarea:focus {
+      border-bottom: 1px solid purple !important;
+      box-shadow: 0 1px 0 0 purple !important;
+    }
+    </style>
+
 <body>
-	{% include 'navbar.html' %}
-	<div class="page">
-	<form method='post'>
-		<h1 class="new-h1">Edit Account</h1>
-		{% csrf_token %}
-		<div class="input-area">
-			<label for="domain">Fullname</label></br>
-			<input type="hidden" name="accid" value="{{d.AccID}}">
-			<input type="text" id='name' name="name" placeholder="Enter Fullname" value="{{d.FullName}}">
-		</div>
-		<div class="input-area">
-			<label for="address">Address</label></br>
-			<input type="text" id='address' name="address" placeholder="Enter Address" value="{{d.Address}}">
-		</div>
-		<div class="input-area">
-			<label for="e-mail">Enter E-mail</label></br>
-			<input type="email" id='e-mail' name="e-mail" placeholder="Enter e-mail" value="{{d.Email}}">
-		</div>
-		<div class="input-area">
-			<label for="phno">Phone Number</label></br>
-			<input type="text" id='phno' name="phno" placeholder="Enter Phoneno" value="{{d.phno}}">
-		</div>
-		<button type="submit" onclick="this.disabled=true,this.form.submit();" class="button1">Edit</button>
-		<a href="/view/{{d.AccID}}" class="b-btn">Discard</a>
-	</form>		
+	{% include 'nav-back.html'%}
+	<div class="container">
+		<h3>Edit Account</h3>
+    <div class="row">
+      <form class="col s12" method="POST">
+      	{%csrf_token%}
+        <div class="input-field default">
+          <i class="material-icons prefix">account_circle</i>
+          <input id="name" name="name" type="text" value="{{d.FullName}}" class="validate">
+          <label for="name">Fullname</label>
+        </div>
+        <div class="input-field default">
+          <i class="material-icons prefix">location_on</i>
+          <textarea id='textarea2' name="address" class="materialize-textarea" data-length="30">{{d.Address}}</textarea>
+          <label for="textarea2">Address</label>
+        </div>
+        <div class="input-field default">
+          <i class="material-icons prefix">email</i>
+          <input id="email" type="email" name="e-mail" value="{{d.Email}}" class="validate">
+          <label for="email">Email</label>
+        </div>
+        <div class="input-field default">
+          <i class="material-icons prefix">phone</i>
+          <input id="phone" type="tel" name="phno" value="{{d.phno}}" class="validate">
+          <label for="phone">Phone No.</label>
+        </div>
+        <button class="btn btn-large waves-effect waves-light purple col s12" type="submit" onclick="M.toast({html: 'Account Edited !!'})" name="action" style="margin-bottom: 10px">Edit Account</button>
+        <a href="/view/{{d.AccID}}" class="waves-effect waves-light black btn btn-large col s12">Discard Changes</a>
+      </form>
+    </div>
 	</div>
-</body>
-</html>
+	<script type="text/javascript">
+		$(document).ready(function() {
+  		  $('input#input_text, textarea#textarea2').characterCounter();
+  		});
+	</script>
+</body></html>

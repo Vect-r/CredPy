@@ -1,0 +1,13 @@
+{%if accounts%}
+	<ul class="collection">
+		{% for i in accounts%}
+		<li class="collection-item avatar">
+  			<i class="material-icons circle">account_circle</i>
+  			<a href="/view/{{i.0}}"><span class="title"><b>{{i.1}}</b></span></a>
+  			<b class="secondary-content {% if 'Dr.' in i.2 %}red-text{% elif 'Cr.' in i.2 %}green-text{%else%}grey-text{%endif%}">&#8377; {{i.2}}</b>
+		</li>
+		{%endfor%}
+	</ul>
+{%else%}
+	<h4 class="center-align">No Accounts Found</h4>
+{% endif%}

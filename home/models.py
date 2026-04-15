@@ -8,6 +8,7 @@ class CustomerAcc(models.Model):
 	Address = models.TextField(null=True,blank=True)
 	phno = models.IntegerField(null=True,blank=True)
 	Email = models.EmailField(null=True,blank=True)
+	LastBalance=models.TextField(null=True)
 	DateCreated = models.DateField()
 	TimeCreated = models.TimeField()
 
@@ -21,6 +22,15 @@ class CashBook(models.Model):
 	Date = models.DateField(null=False)
 	Time = models.TimeField(null=False)
 
-class LastBalance(models.Model):
-	Account=models.ForeignKey(CustomerAcc,on_delete=models.CASCADE)
-	Balance=models.TextField(null=True)
+class NoCount(models.Model):
+	Nid=models.AutoField(primary_key=True)
+	Rdate=models.DateField(null=False)
+	R2000=models.IntegerField(null=True, blank=True)
+	R500=models.IntegerField(null=True, blank=True)
+	R200=models.IntegerField(null=True, blank=True)
+	R100=models.IntegerField(null=True, blank=True)
+	R50=models.IntegerField(null=True, blank=True)
+	RCh=models.IntegerField(null=True, blank=True)
+	Ronl=models.IntegerField(null=True, blank=True)
+	Total=models.IntegerField(null=True, blank=True)
+	Remarks=models.TextField(null=True, blank=True)	

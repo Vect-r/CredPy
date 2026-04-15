@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+{%include 'base.html'%}
+<body>
+{% include 'nav-back.html' %}
+</body>
+	<div class="container">
+		<h3>Add - Notes</h3>
+		<br>
+		<form method="post" id="form">
+		{%csrf_token%}
+		<div class="input-field">
+          <i class="material-icons prefix">date_range</i>
+          <input type="text" class="datepicker" name="Cdate" placeholder="Select Date" id="Cdate">
+        </div>
+		<table class="striped darken">
+			<thead>
+			<tr>
+				<th></th>
+				<th></th>
+				<th>Total</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td style="width: 20%" class="no-padding">2000 X</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="2000" type="number" name="v2k" class="">
+					</div>
+				</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="totalNote" type="number" name="tt2k" class="" disabled>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 20%" class="no-padding">500 X</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="500" type="number" name="v5h" class="align-right">
+					</div>
+				</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="last_name"  name="tt5h" type="number" class="align-right"  disabled>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 20%" class="no-padding">200 X</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input name="v2h" id="200" type="number" class="  align-right">
+					</div>
+				</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="last_name" type="number" name="tt2h" class="align-right" disabled>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 20%" class="no-padding">100 X</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="100" name="v1h" type="number" class="align-right">
+					</div>
+				</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="last_name" name="tt1h" type="number" class="align-right" disabled>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 20%" class="no-padding">50 X</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="50" type="number" name="v50" class="align-right">
+					</div>
+				</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="last_name" type="number" name="tt50" class="align-right" disabled>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td style="width: 20%" class="no-padding">10s 20s</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="change" name="change" type="number" class="  align-right">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td style="width: 20%" class="no-padding">Online</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="online" name="online" type="number" class="  align-right">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><b>Total</b></td>
+				<td>
+					<div class="input-field inline">
+						<input id="mainTtl" name="mainTtl" type="number" class="align-right" disabled>
+						<input id="mainTll" name="total" type="hidden" class="align-right">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<div class="input-field col s12">
+            			<textarea id="textarea2" name="remarks" class="materialize-textarea" data-length="120"></textarea>
+            			<label for="textarea2">Remarks</label>
+          			</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="row">
+			<a class="btn btn-large waves-effect waves-light purple col s12" onclick="onSubmit()" style="margin-bottom: 10px">Save</a>
+        	<a class="waves-effect waves-light black btn btn-large col s12" href="/notes/index">Discard</a>
+    	</div>
+		<script>
+			document.getElementsByName("v2k")[0].addEventListener('keyup', multpl);
+			document.getElementsByName("v5h")[0].addEventListener('keyup', multpl);
+			document.getElementsByName("v2h")[0].addEventListener('keyup', multpl);
+			document.getElementsByName("v1h")[0].addEventListener('keyup', multpl);
+			document.getElementsByName("v50")[0].addEventListener('keyup', multpl);
+			document.getElementById("change").addEventListener('keyup', Idttl);
+			document.getElementById("online").addEventListener('keyup', Idttl);
+
+
+			function ttlFetch() {
+				var cnt=0;
+				var p = document.querySelectorAll("[name^=tt]")
+				for (i=0; i<p.length; i++) {
+    				cnt=cnt+(parseInt(p[i].value) || 0)
+    				console.log(cnt)
+				}
+				cnt=cnt+(parseInt(document.getElementById("change").value) || 0)
+				cnt=cnt+(parseInt(document.getElementById("online").value) || 0)
+				return cnt;
+			}
+
+			document.addEventListener('DOMContentLoaded', function() {
+          		var elems = document.querySelectorAll('.datepicker');
+          		var instances = M.Datepicker.init(elems, {'defaultDate':new Date(),'setDefaultDate':true});
+        	});
+
+			function multpl() {
+				var nm = this.name.replace('v','tt')
+				document.getElementsByName(nm)[0].value=this.value * this.id;
+				document.getElementById("mainTtl").value=ttlFetch()
+				document.getElementById("mainTll").value=ttlFetch()
+			}
+
+			function Idttl() {
+				document.getElementById("mainTtl").value=ttlFetch()	
+				document.getElementById("mainTll").value=ttlFetch()	
+			}
+
+			function onSubmit() {
+				form = document.getElementById('form');
+				if (document.getElementById('Cdate').value==""){
+              		M.toast({html: 'Error: Please Select Date.'});
+            	}	
+            	else{
+              		form.submit()
+            	}
+			}
+		</script>
+	</form>
+	</div>
+</body>
+</html>

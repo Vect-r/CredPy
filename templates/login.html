@@ -1,32 +1,80 @@
 <!DOCTYPE html>
-{% load static %}
 <html>
-<head>
-	<script>
+{%include 'base.html'%}
+<style type="text/css">
+    .default input:focus + label {
+        color: purple !important;
+      }
+
+      /* label underline focus color */
+      .default input:focus {
+        border-bottom: 1px solid purple !important;
+        box-shadow: 0 1px 0 0 purple !important;
+      }
+
+      .default .prefix.active{
+        color: purple !important;
+      }
+
+      .default textarea:focus + label {
+        color: purple !important;
+      }
+
+      .default textarea:focus {
+        border-bottom: 1px solid purple !important;
+        box-shadow: 0 1px 0 0 purple !important;
+      }
+
+      .check-pink[type="checkbox"].filled-in:checked + label:after{
+        border: 2px solid purple !important;
+        background-color: purple !important;
+      }
+</style>
+<body>
+	<div class="row" style="margin-top: 100px">
+        <div class="col s12 m4 offset-m4">
+            <div class="card z-depth-1">
+                <div class="card-content black white-text">
+                    <span class="card-title center-align"><h3>CredPy<sup>BETA</sup></h3></span>   
+                </div>
+                <div class="card-content">
+                    <form action="/login" method="POST">
+                    {%csrf_token%}
+                    <div class="input-field default">
+                        <i class="material-icons prefix">account_circle</i>
+                        <input type="text" id="username" name="username">
+                        <label for="username">Username</label>
+                    </div>
+                    <div class="input-field default">
+                        <i class="material-icons prefix">lock</i>
+                        <input type="password" id="passwd" name="passwd">
+                        <label for="passwd">Password</label>
+                    </div>
+                    <label>
+                        &nbsp;<input type="checkbox" class="check-pink filled-in" onclick="myFunction()" />
+                        <span>Show Password</span>
+                    </label>
+                    <br>
+                    &nbsp;<button class="btn waves-effect waves-light purple" style="width: 100%" type="submit" name="">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>    
+    </div>
+</body>
+<script>
 		function myFunction() { 
  			var x = document.getElementById("passwd");
   			if (x.type === "password") {
-    			x.type = "text";
+  				x.type = "text";
   			} else {
-    			x.type = "password";
+  				x.type = "password";
   			}
 		}
+
+		function showError(){
+			M.toast({html: 'Error: Username or Password may be incorrect'})
+		}
+		{{stat}}
 	</script>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Login</title>
-	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
-</head>
-<body>
-	<form class="box" action='/login' method='post'>
-		{% csrf_token %}
-		<h1>Login</h1>
-		<input type="text" name="username" placeholder="Username">
-		<input type="password" name="passwd" id="passwd" placeholder="Password">
-		<input type="submit" name="" value="Login">
-		<input type="checkbox" id="showpass" name="showpass" onclick="myFunction()">
-		<label for="showpass" style="color:white;">Show Password</label><br>
-		<p style="color:red;">{{stat}}</p>
-	</form>
-</body>
 </html>

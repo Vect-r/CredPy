@@ -1,54 +1,101 @@
 <!DOCTYPE html>
-{% load static %}
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
-	<title>LedPy</title>
-</head>
+{%include 'base.html'%}
+
 <body>
-	{%include 'navbar.html' %}
-	<div class="page">
-		<form novalidate="novalidate">
-			<input type="search" name="search" placeholder="Search..." autofocus required /><br>
-			<div>
-				<label for+="sdate">From...</label>
-				<input type="date" id="sdate" name="sdate" placeholder="From..." {{fdate}}>
-			</div>
-			<div>
-				<label for="edate">To...</label>
-				<input type="date" id="edate" name="edate" placeholder="To.." {{edate}}>
-			</div>
-			<button type="submit" class="menu-btn" id="add-btn">Search</button>
-			<button type="submit" style="margin-top: 2px;" formaction="/genreportdate" class="menu-btn" id="add-btn">PDF Report</button>
-		</form>
-		<table>
-			<th>Account Name</th>
-			<th>Date</th>
-			<th>Debit</th>
-			<th>Credit</th>
-			<th>Description</th>
-			{% for i in d %}
-				<tr onclick="window.location='/update/{{i.TranID}}'" name='dd' id="dd{{i.TranID}}">
-					<!--<a onclick="onView(this.id)" name="dd" id="dd{{i.TranID}}" class="tranno">-->
-					<td>{{i.AccName}}</td>
-					<td>{{i.Date}}</td>
-					<td class="dr">{{i.DrAmnt}}</td>
-					<td class="cr">{{i.CrAmnt}}</td>
-					<td>{{i.Desc}}</td>
-				</tr>
-			{% empty %}
-				<h1>No Matching Records Found</h1>
-			{% endfor %}
-			<tfoot style="border-top: solid 2px black;">
-					<td></td>
-					<td>Total</td>
-					<td>{{dr}}</td>
-					<td>{{cr}}</td>
-					<td></td>
-				</tfoot>
-		</table>
+	{% include 'nav.html'%}
+	<div class="container">
+		<h3>Reports</h3>
+    	<form class="col s12" novalidate="novalidate" autocomplete="off">
+      		<div class="row" style="margin-bottom: 0px;">
+        		<div class="input-field col s6">
+          			<i class="material-icons prefix">date_range</i>
+          			<input type="text" class="datepicker" id="sdate" name="sdate" placeholder="From...">
+        		</div>
+        		<div class="input-field col s6">
+          			<i class="material-icons prefix">date_range</i>
+          			<input type="text" class="datepicker" id="edate"name="edate" placeholder="To...">
+        		</div>
+      		</div>
+          <div class="row">
+      		<button class="waves-effect waves-light btn purple" type="submit" name="action"><i class="material-icons left">search</i>Search</button>
+      		<button class="waves-effect waves-light btn purple" type="submit" formaction="/genreportdate"><i class="material-icons left">picture_as_pdf</i>
+          Report</button>
+          <a class="waves-effect waves-light btn purple" href="/reports" name="refresh"><i class="material-icons left">refresh</i></a>
+          </div>
+    	</form>
+    <table class="highlight infinite-container">
+        <thead>
+          <tr>
+          	<th>Name</th>
+            <th>Date</th>
+            <th class="center-align">Debit</th>
+            <th class="center-align">Credit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%for i in d%}
+          <tr class="cell infinite-item" onclick="window.location='/update/{{i.TranID}}'" style="border: none;">
+            <td class="no-padding">{{i.AccName}}<br>{%if i.Desc%}<span class="purple lighten-5" style="border-radius: 3px; padding: 0px 6px 0px 6px;">{{i.Desc}}</span>{%endif%}</td>
+            <td><b>{{i.Date}}</b></td>
+            <td class="red lighten-5 red-text right-align"><b>{%if i.DrAmnt != 0 %}&#8377;{{i.DrAmnt}}{%endif%}</b></td>
+            <td class="green lighten-5 green-text right-align"><b>{%if i.CrAmnt != 0 %}&#8377;{{i.CrAmnt}}{%endif%}</b></td>
+          </tr>
+          {%empty%}
+          <tr>
+          	<td colspan="4">No Entries Found for the Date</td>
+          </tr>
+          {%endfor%}
+          
+        </tbody>
+        <tfoot>
+          <tr class="cell">
+            {% if d.has_next%}
+              <td><a class="waves-effect waves-light btn-large infinite-more-link" disabled href="?page={{d.next_page_number}}">More</a></td>
+            {%endif%}
+            <td class="loading" style="display: none;">Loading...</td>
+          </tr>
+          <tr class="cell" style="border-bottom: none; border-top: 1px solid #e0e0e0;">
+            <td class=""></td>
+            <th class="">Total</th>
+            <td class="right-align red-text">{{dr}}</th>
+            <td class="right-align green-text">{{cr}}</th>
+          </tr>
+        </tfoot>
+      </table>
+  </div>
+  	<script>
+      document.title = "Reports"
+
+      var edate = new Date("{{edate}}")
+      var sdate = new Date("{{fdate}}")
+
+      $(document).ready(function() {
+        $("#edate").datepicker({
+          'defaultDate':edate,
+          'setDefaultDate': true,
+          'showClearBtn':true
+        });
+      });
+
+      $(document).ready(function() {
+        $("#sdate").datepicker({
+          'defaultDate':sdate,
+          'setDefaultDate': true,
+          'showClearBtn':true
+        });
+      });
+
+     var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        onBeforePageLoad: function () {
+          $('.loading').show();
+        },
+        onAfterPageLoad: function ($items) {
+          $('.loading').hide();
+        }
+      });
+    </script>
 	</div>
 </body>
 </html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+{%include 'base.html'%}
+<body>
+{% include 'nav-back.html' %}
+</body>
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Delete Entry</h4>
+      <p>Are you sure you want to delete this Entry?</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancel</a>
+      <a href="/notes/delete/{{data.Nid}}" class="waves-effect purple-text waves-purple btn-flat">OK!</a>
+    </div>
+  </div>
+
+	<div class="container">
+		<h3>View - {{data.Rdate}}</h3>
+		<br>
+		<table>
+        <thead>
+          <tr>
+              <th>Notes</th>
+              <th></th>
+              <th>Quantity</th>
+              <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>10s 20s</td>
+            <td></td>
+            <td>{{data.RCh}}</td>
+            <td>{{data.RCh}}</td>
+          </tr>
+          <tr>
+            <td>50</td>
+            <td>X</td>
+            <td>{{data.R50}}</td>
+            <td>{{valtl.R50}}</td>
+          </tr>
+          <tr>
+            <td>100</td>
+            <td>X</td>
+            <td>{{data.R100}}</td>
+            <td>{{valtl.R100}}</td>
+          </tr>
+          <tr>
+            <td>200</td>
+            <td>X</td>
+            <td>{{data.R200}}</td>
+            <td>{{valtl.R200}}</td>
+          </tr>
+          <tr>
+            <td>500</td>
+            <td>X</td>
+            <td>{{data.R500}}</td>
+            <td>{{valtl.R500}}</td>
+          </tr>
+          <tr>
+            <td>2000</td>
+            <td>X</td>
+            <td>{{data.R2000}}</td>
+            <td>{{valtl.R2000}}</td>
+          </tr>
+          <tr>
+            <td>Online</td>
+            <td></td>
+            <td>{{data.Ronl}}</td>
+            <td>{{data.Ronl}}</td>
+          </tr>
+          <tfoot>
+          	<tr>
+          		<td><b>Total</b></td>
+          		<td></td>
+          		<td></td>
+          		<td><b>{{data.Total}}</b></td>
+          	</tr>
+          </tfoot>
+        </tbody>
+      </table>
+	<!--When you ready come and get it -->
+	<div class="card-panel">
+		Remarks<br>
+		<textarea id="textarea2" disabled style="color: black" name="remarks" class="materialize-textarea" data-length="120">{{data.Remarks}}</textarea>
+	</div>
+	<div class="row">
+		<a class="btn btn-large waves-effect waves-light purple col s12" href='/notes/edit/{{data.Nid}}' style="margin-bottom: 10px">Edit Entry</a>
+		<a class="btn btn-large waves-effect waves-light black col s12 modal-trigger" href='#modal1' style="margin-bottom: 10px">Delete Entry</a>
+	</div>
+	</div>
+</body>
+<script>
+  $(document).ready(function(){
+    $(".modal").modal();
+  });
+</script>
+</html>

@@ -18,13 +18,14 @@ class GenReport:
         self.elems=[]
         self.dwStyle=[('BACKGROUND',(2,0),(-3,-1),colors.pink),
                       ('BACKGROUND',(3,0),(-2,-1),colors.lightgreen),#for credit
+                      ('ALIGN',(2,0),(-3,-1),'RIGHT'),
+                      ('ALIGN',(3,0),(-2,-1),'RIGHT'),
                       ('FONTSIZE',(0,0),(-1,-1),14),
                       ('BOTTOMPADDING',(0,0),(-1,-1),7),
                       ('BOX',(0,0),(-1,0),0.25,colors.black),
                       ('BOX',(0,0),(-1,-1),1.0,colors.black),
                       ('BOX',(0,-1),(-1,-1),0.25,colors.black),
-                      ('FONTNAME',(0,-1),(-1,-1),'Helvetica-Bold'),
-                      ('ALIGN',(-1,0),(-1,-1),'RIGHT')]
+                      ('FONTNAME',(0,-1),(-1,-1),'Helvetica-Bold')]
         self.accStyle=[('BACKGROUND',(1,0),(-4,-1),colors.pink),
                             ('BACKGROUND',(2,0),(-3,-1),colors.lightgreen),
                             ('FONTSIZE',(0,0),(-1,-1),14),

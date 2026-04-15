@@ -1,45 +1,146 @@
 <!DOCTYPE html>
-{% load static %}
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
-	<title>LedPy</title>
-</head>
+{% include 'base.html' %}
 <body>
-	{%include 'navbar-acc.html'%}
-  <div class="page">
-		<h1>{{name}}</h1>
-		<div style="margin-left: 10px;">
-			<button onclick="window.location='/addTran/{{id}}'" class="menu-btn" id="add-btn">+</button>
-			<a class="menu-btn" id="add-btn" href="/generate/{{id}}">PDF Report</a>
-			<a class="menu-btn" id="add-btn" href="/">Go Back</a>
-		</div>
-		<table>
-			<th>Date</th>
-			<th>Debit</th>
-			<th>Credit</th>
-			<th>Description</th>
-			<th>Balance</th>
-			{% for i,j in data %}
-				<tr onclick="window.location='/update/{{i.TranID}}'" name='dd' id="dd{{i.TranID}}">
-					<!--<a onclick="onView(this.id)" name="dd" id="dd{{i.TranID}}" class="tranno">-->
-					<td>{{i.Date}}</td>
-					<td class="dr">{{i.DrAmnt}}</td>
-					<td class="cr">{{i.CrAmnt}}</td>
-					<td>{{i.Desc}}</td>
-					<td>{{j}}</td>
-				</tr>
-			{% empty %}
-				<h1>No Records Found</h1>
-			{% endfor %}
-			<tfoot style="border-top: solid 2px black;">
-					<td>Total</td>
-					<td>{{dr}}</td>
-					<td>{{cr}}</td>
-					<td></td>
-					<td></td>
-				</tfoot>
-		</table>
+  <div id="modal1" class="modal">
+  <div class="modal-content">
+    <h4>Delete Account</h4>
+    <p>Are you sure you want to delete this Account?</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancel</a>
+    <a href="/delAccount/{{id}}" class="waves-effect purple-text waves-purple btn-flat">OK!</a>
+  </div>
+  </div>
+	{% include 'nav-back-acc.html' %}
+	<div class="container">
+		<div class="row" style="margin-bottom: 0;">
+      
+      <div class="card horizontal">
+      <form id="form" method="get">
+      <div class="card-stacked">
+
+        <div class="card-content" style="padding: 0px 24px 0px 24px;">
+          <h3>{{name}}</h3>
+          <span class="card-title left">Balance -&nbsp;</span>
+          <span class="card-title {% if 'Dr.' in lsb %}red-text{% elif 'Cr.' in lsb %}green-text{%else%}grey-text{%endif%}"><b>&#8377; {{lsb}}</b></span>
+          
+          <div class="input-field col s6 no-padding">
+                <i class="material-icons prefix">date_range</i>
+                <input type="text" class="datepicker" id="sdate" name="sdate" placeholder="From...">
+            </div>
+            <div class="input-field col s6 no-padding">
+                <i class="material-icons prefix">date_range</i>
+                <input type="text" class="datepicker" id="edate"name="edate" placeholder="To...">
+            </div>
+
+        </div>
+        <div class="card-action">
+          <a class="waves-effect waves-light btn purple" type="submit" name="action" onclick="document.getElementById('form').submit();"><i class="material-icons left">search</i>Search</a>
+          <button class="waves-effect waves-light btn purple" type="submit" formaction="/generate/{{id}}"><i class="material-icons left">download</i>PDF Report</button>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+    <div class="fixed-action-btn">
+      <a href="/addTran/{{id}}" class="btn-floating purple waves-effect waves-circle waves-light btn-large"><i class="large material-icons">add</i></a>
+    </div>
+    
+    <table class="highlight">
+        <thead>
+          <tr>
+              <th>Date</th>
+              <th class="right-align">Debit</th>
+              <th class="right-align">Credit</th>
+              <th class="right-align">Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i,j in data %}
+          <tr class="cell" onclick="window.location='/update/{{i.TranID}}'" style="border: none;">
+            <td><b>{{i.Date}}</b><br>{%if i.Desc%}<span class="purple lighten-5" style="border-radius: 3px; padding: 0px 6px 0px 6px;">{{i.Desc}}</span>{%endif%}</td>
+            <td class="red lighten-5 red-text right-align debit"><b>{%if i.DrAmnt != 0 %}&#8377; {{i.DrAmnt}}{%endif%}</b></td>
+            <td class="green lighten-5 green-text right-align credit"><b>{%if i.CrAmnt != 0%}&#8377; {{i.CrAmnt}}{%endif%}</b></td>
+            <td class="right-align">{{j}}</td>
+          </tr>
+          {%empty%}
+            <tr>
+              <td colspan="4" class="center-align">No Entries Found</td>
+            </tr>
+          {%endfor%}
+        </tbody>
+        <tfoot>
+          <tr class="cell tab-foot" style="border-bottom: none; border-top: 1px solid #e0e0e0;">
+            <th class="tab-foot">Total</th>
+            <td class="right-align red-text tab-foot">&#8377; {{dr}}</th>
+            <td class="right-align green-text tab-foot">&#8377; {{cr}}</th>
+            <th class="tab-foot"></td>
+          </tr>
+        </tfoot>
+      </table>
+      <!--
+      <style type="text/css">
+      	.cell {
+        	border: 1px solid white;
+      	}
+      	.credit {
+        	border-bottom: 1px solid #e8f5e9;
+      	}
+
+      	.debit {
+        	border-bottom: 1px solid #ffebee;
+      	}
+
+      	.tab-foot{
+        	border-top: 1px solid #e0e0e0 !important;
+      	}
+
+      	.min-card {
+	        padding: 0px 24px 0px 24px;
+      	}
+    </style>
+	-->
+  </div>
 	</div>
+</body>
+		<script>
+      $(document).ready(function(){
+        $('.fixed-action-btn').floatingActionButton();
+      });
+
+      $(document).ready(function(){
+        $("#modal1").modal();
+      });
+
+      var edate = new Date("{{edate}}")
+      var sdate = new Date("{{fdate}}")
+      
+      $(document).ready(function() {
+        $("#edate").datepicker({
+          'defaultDate':edate,
+          'setDefaultDate': true,
+          'showClearBtn':true
+        });
+      });
+
+      $(document).ready(function() {
+        $("#sdate").datepicker({
+          'defaultDate':sdate,
+          'setDefaultDate': true,
+          'showClearBtn':true
+        });
+      });
+
+		  document.title = "{{name}} | CredPy"
+          document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.sidenav');
+            var instances = M.Sidenav.init(elems, {});
+          });
+
+          document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.dropdown-trigger');
+            var instances = M.Dropdown.init(elems, {});
+          });
+       </script>
+</html>

@@ -1,43 +1,151 @@
 <!DOCTYPE html>
-{% load static %}
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Add Transaction</title>
-	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
-</head>
+{%include 'base.html'%}
+<style type="text/css">
+      html, body {
+        margin: 0;
+        height: 100%;
+        overflow-x: hidden;
+      }
+      /* label focus color */
+      .debit input[type=number]:focus + label {
+        color: #F44336 !important;
+      }
+
+      /* label underline focus color */
+      .debit input[type=number]:focus {
+        border-bottom: 1px solid #F44336 !important;
+        box-shadow: 0 1px 0 0 #F44336 !important;
+      }
+
+      .debit .prefix.active {
+        color: #F44336 !important;
+      }
+
+      .default .prefix.active{
+        color: purple !important;
+      }
+
+      .default textarea:focus + label {
+        color: purple !important;
+      }
+
+      .default textarea:focus {
+        border-bottom: 1px solid purple !important;
+        box-shadow: 0 1px 0 0 purple !important;
+      }
+    </style>
 <body>
-  {% include 'navbar.html' %}
-	<div class="page">
-		<h2>Edit Transaction</h2>
-    <form method="POST">
-        {% csrf_token %}
-        <div>
-            <input type="number" id="Amnt" name="tranid" readonly="readonly" value="{{data.TranID}}">
+	{%include 'nav-back.html'%}
+	<div class="container">
+    <h3>Edit Transaction</h3>
+    <div class="row">
+      <div id="modal1" class="modal">
+        <div class="modal-content">
+          <h4>Delete Transaction</h4>
+          <p>Are you sure you want to delete this Transaction?</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancel</a>
+          <a href="/delete/{{data.TranID}}" class="waves-effect purple-text waves-purple btn-flat">OK!</a>
+        </div>
+      </div>
+      <div id="modal2" class="modal">
+        <div class="modal-content">
+          <h4>Edit Changes</h4>
+          <p>Are you sure you want to Edit the Changes?</p>
+        </div>
+        <div class="modal-footer">
+          <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancel</a>
+          <a href="#" onclick="document.getElementById('data').submit();" class="waves-effect purple-text waves-purple btn-flat">OK!</a>
+        </div>
+      </div>
+      <form class="col s12" method="POST" id="data">
+      	{% csrf_token %}
+        <input type="hidden" name="next" value="{{callback}}">
+        <div class="input-field">
+            <i class="material-icons prefix" style="color: rgba(0,0,0,0.42);">card_membership</i>
+            <input disabled value="{{data.TranID}}" id="tranid" type="text" class="validate">
+            <label for="tranid">ID</label>
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">account_circle</i>
+          <input type="text" value="{{data.AccNo.FullName}}" id="autocomplete-input" name="fullname" class="autocomplete">
+          <label for="autocomplete-input">Name</label>
+        </div>
+      	<div class="input-field">
+          <i class="material-icons prefix">arrow_downward</i>
+          <input id="credit" type="number" class="validate" name="vCrAmnt" value="{%if data.CrAmnt != 0 %}{{data.CrAmnt}}{%endif%}">
+          <label for="credit">Amount Received Cr.</label>
+        </div>
+        <div class="input-field debit">
+          <i class="material-icons prefix debit">arrow_upward</i>
+          <input id="debit" type="number" class="validate" name="vDrAmnt" value="{%if data.DrAmnt != 0 %}{{data.DrAmnt}}{%endif%}">
+          <label for="debit">Amount Give Dr.</label>
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">date_range</i>
+          <input type="text" class="datepicker" id="Cdate" name="vdate" placeholder="Select Date">
+        </div>
+        <div class="input-field default">
+            <i class="material-icons prefix">short_text</i>
+            <textarea id="textarea2" name="vdesc" class="materialize-textarea" data-length="30">{{data.Desc}}</textarea>
+            <label for="textarea2">Description</label>
           </div>
-          <input type="hidden" name="next" value="{{ request.path }}">
-          <div>
-            <label for="CrAmnt">Amount Received Cr.</label>
-            <input type="number" name="vCrAmnt" id="Amnt" value="{{data.CrAmnt}}">
-          </div>
-          <div>
-            <label for="DrAmnt">Amount Give Dr.</label>
-            <input type="number" name="vDrAmnt" id="Amnt" value="{{data.DrAmnt}}">
-          </div>
-          <div>
-            <label for="desc">Description</label>
-            <input type="text" name="vdesc" id="Amnt" value="{{data.Desc}}">
-          </div></br>
-          <div>
-            <input type="date" name="vdate" id="vdate" min="2000-04-01" value="{{data.Date}}">
-          </div>
-          <footer>
-            <button type="submit" name="editTr" onclick="this.disabled=true,this.form.submit()" id="btn-theme">Edit</button>
-            <a class="a-btn-gray" onclick="window.location='/delete/{{data.TranID}}'">Delete</a>
-            <button id="btn-theme-grey" onclick="window.location='/'">Discard Changes</button>
-          </footer>
-        </form>
-        <script type="text/javascript">
-          document.getElementById('vdate').value="{{data.Date | date:'Y-m-d'}}";
-        </script>
+          <a class="btn btn-large waves-effect waves-light purple col s12 modal-trigger" onclick="onSubmit()" style="margin-bottom: 10px">Edit Transaction</button>
+          <a class="waves-effect waves-light black btn btn-large col s12 modal-trigger" href="#modal1" style="margin-bottom: 10px">Delete Transaction</a>
+          <a class="waves-effect waves-light black btn btn-large col s12" href="{{callback}}">Discard Changes</a>
+      </form>
+    </div>
+    <script type="text/javascript">
+        document.title = "Edit Transaction"
+
+        const tdate = new Date("{{data.Date | date:'Y-m-d'}}");
+        document.addEventListener('DOMContentLoaded', function() {
+          var elems = document.querySelectorAll('.datepicker');
+          var instances = M.Datepicker.init(elems, {'defaultDate': tdate,'setDefaultDate': true});
+        });
+
+        $(document).ready(function() {
+          $('input#input_text, textarea#textarea2').characterCounter();
+        });
+
+        $(document).ready(function(){
+          $(".modal").modal();
+        });
+
+        $(document).ready(function(){
+          $('input.autocomplete').autocomplete({
+            data: {{names|safe}},
+          });
+        });
+
+
+        function onSubmit(argument) {
+          form = document.getElementById('form');
+          drtxt = document.getElementById('debit').value
+          crtxt = document.getElementById('credit').value
+          dateT = document.getElementById('Cdate').value
+
+          // for credit Transaction
+          if (crtxt=="" && drtxt==""){
+            M.toast({html: 'Error: Please enter some Value'});
+          }
+          else if (crtxt!="" && drtxt!= ""){
+            M.toast({html: 'Error: Either Debit or Credit is Allowed at one Time.'});
+          }
+          else {
+            if (dateT==""){
+              M.toast({html: 'Error: Please Select Date.'});
+            }
+            else{
+              $("#modal2").modal('open');
+            }
+          }
+        }
+
+    </script>
+
+	</div>
+</body>
+</html>

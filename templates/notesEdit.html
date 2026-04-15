@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+{%include 'base.html'%}
+<body>
+{% include 'nav-back.html' %}
+</body>
+		<div class="container">
+			<div id="modal1" class="modal">
+		<div class="modal-content">
+		  <h4>Delete Entry</h4>
+		  <p>Are you sure you want to delete this Entry?</p>
+		</div>
+		<div class="modal-footer">
+		  <a href="#!" class="modal-close waves-effect waves-black btn-flat">Cancel</a>
+		  <a href="/notes/delete/{{data.Nid}}" class="waves-effect purple-text waves-purple btn-flat">OK!</a>
+		</div>
+		</div>
+
+		<h3>Edit - Cash Counter</h3>
+		<br>
+		<form method="post" id="form">
+		{%csrf_token%}
+		<div class="input-field">
+          <i class="material-icons prefix">date_range</i>
+          <input type="text" class="datepicker" name="Cdate" placeholder="Select Date" id="Cdate">
+        </div>
+		<table class="striped darken">
+			<thead>
+			<tr>
+				<th></th>
+				<th></th>
+				<th>Total</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td style="width: 20%" class="no-padding">2000 X</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="2000" type="number" name="v2k" class="" value="{{data.R2000}}">
+					</div>
+				</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="totalNote" type="number" name="tt2k" class="" value="{{valtl.R2000}}" disabled>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 20%" class="no-padding">500 X</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="500" type="number" name="v5h" class="align-right" value="{{data.R500}}">
+					</div>
+				</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="last_name"  name="tt5h" type="number" class="align-right" value="{{valtl.R500}}"  disabled>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 20%" class="no-padding">200 X</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input name="v2h" id="200" type="number" class="  align-right" value="{{data.R200}}">
+					</div>
+				</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="last_name" type="number" name="tt2h" class="align-right" value="{{valtl.R200}}" disabled>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 20%" class="no-padding">100 X</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="100" name="v1h" type="number" value="{{data.R100}}" class="align-right">
+					</div>
+				</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="last_name" name="tt1h" type="number" value="{{valtl.R100}}" class="align-right" disabled>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="width: 20%" class="no-padding">50 X</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="50" type="number" name="v50" value="{{data.R50}}" class="align-right">
+					</div>
+				</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="last_name" type="number" name="tt50" value="{{valtl.R50}}" class="align-right" disabled>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td style="width: 20%" class="no-padding">10s 20s</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="change" name="change" value="{{data.RCh}}" type="number" class="  align-right">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td style="width: 20%" class="no-padding">Online</td>
+				<td class="no-padding">
+					<div class="input-field inline">
+						<input id="online" name="online" type="number" value="{{data.Ronl}}" class="  align-right">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><b>Total</b></td>
+				<td>
+					<div class="input-field inline">
+						<input id="mainTtl" type="number" class="align-right" value="{{data.Total}}" disabled>
+						<input id="mainTll" name="total" type="hidden" class="align-right" value="{{data.Total}}">
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<div class="input-field col s12">
+            			<textarea id="textarea2" name="remarks" class="materialize-textarea" data-length="120">{{data.Remarks}}</textarea>
+            			<label for="textarea2">Remarks</label>
+          			</div>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="row">
+			<a class="waves-effect waves-light purple btn btn-large col s12" onclick="onSubmit()">Save</a>
+        	<a class="waves-effect waves-light black btn btn-large col s12" style="margin-block: 10px;" href="/notes/index">Discard</a>
+        	<a class="waves-effect waves-light black btn btn-large col s12 modal-trigger" href="#modal1">Delete</a>
+    	</div>
+    	<!--When you ready come and get it -->
+		<script>
+			$(document).ready(function(){
+    			$(".modal").modal();
+  			});
+
+			document.getElementsByName("v2k")[0].addEventListener('keyup', multpl);
+			document.getElementsByName("v5h")[0].addEventListener('keyup', multpl);
+			document.getElementsByName("v2h")[0].addEventListener('keyup', multpl);
+			document.getElementsByName("v1h")[0].addEventListener('keyup', multpl);
+			document.getElementsByName("v50")[0].addEventListener('keyup', multpl);
+			document.getElementById("change").addEventListener('keyup', Idttl);
+			document.getElementById("online").addEventListener('keyup', Idttl);
+
+		    const tdate = new Date("{{data.Rdate | date:'Y-m-d'}}");
+	        document.addEventListener('DOMContentLoaded', function() {
+	          var elems = document.querySelectorAll('.datepicker');
+	          var instances = M.Datepicker.init(elems, {'defaultDate': tdate,'setDefaultDate': true});
+	        });
+
+			function ttlFetch() {
+				var cnt=0;
+				var p = document.querySelectorAll("[name^=tt]")
+				for (i=0; i<p.length; i++) {
+    				cnt=cnt+(parseInt(p[i].value) || 0)
+				}
+				cnt=cnt+(parseInt(document.getElementById("change").value) || 0)
+				cnt=cnt+(parseInt(document.getElementById("online").value) || 0)
+				return cnt;
+			}
+
+			function multpl() {
+				var nm = this.name.replace('v','tt')
+				document.getElementsByName(nm)[0].value=this.value * this.id;
+				document.getElementById("mainTtl").value=ttlFetch()
+				document.getElementById("mainTll").value=ttlFetch()
+			}
+
+			function Idttl() {
+				document.getElementById("mainTtl").value=ttlFetch()	
+				document.getElementById("mainTll").value=ttlFetch()	
+			}
+
+			function onSubmit() {
+				form = document.getElementById('form');
+				if (document.getElementById('Cdate').value==""){
+              		M.toast({html: 'Error: Please Select Date.'});
+            	}	
+            	else{
+              		form.submit()
+            	}
+			}
+		</script>
+	</form>
+	</div>
+</body>
+</html>

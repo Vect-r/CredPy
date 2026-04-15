@@ -1,0 +1,29 @@
+<nav>
+    <div class="nav-wrapper blue">
+      <a href="/" class="brand-logo left" style="left: 60px">CredPy</a>
+      <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/reports">Reports</a></li>
+        <li><a href="/notes/index">Cash Counter</a></li>
+        <li><a href="/addQuick">Quick Add</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="slide-out">
+    <li><h3 class="blue-text center">CredPy<sup>BETA</sup></h3></li>
+    <li><a href="" class="subheader center">Developer: Mitesh Vaid</a></li>
+    <li><div class="divider"></div></li>
+    <li><a href="/reports"><i class="material-icons">description</i>Reports</a></li>
+    <li><a href="/notes/index"><i class="material-icons">attach_money</i>Cash Counter</a></li>
+    <li><a href="/addQuick"><i class="material-icons">add_circle</i>Quick Add</a></li>
+    <li><a href="/about"><i class="material-icons">info_outline</i>About</a></li>
+    <li><a href="/logout"><i class="material-icons">exit_to_app</i>Logout</a></li>
+  </ul>
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems, {});
+  });
+</script>

@@ -1,41 +1,112 @@
 <!DOCTYPE html>
-{% load static %}
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Add Transaction</title>
-	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
-</head>
+{%include 'base.html'%}
+<style type="text/css">
+      html, body {
+        margin: 0;
+        height: 100%;
+        overflow-x: hidden;
+      }
+      /* label focus color */
+      .debit input[type=number]:focus + label {
+        color: #F44336 !important;
+      }
+
+      /* label underline focus color */
+      .debit input[type=number]:focus {
+        border-bottom: 1px solid #F44336 !important;
+        box-shadow: 0 1px 0 0 #F44336 !important;
+      }
+
+      .debit .prefix.active {
+        color: #F44336 !important;
+      }
+
+      .default .prefix.active{
+        color: purple !important;
+      }
+
+      .default textarea:focus + label {
+        color: purple !important;
+      }
+
+      .default textarea:focus {
+        border-bottom: 1px solid purple !important;
+        box-shadow: 0 1px 0 0 purple !important;
+      }
+    </style>
 <body>
-	{% include 'navbar-acc.html' %}
-	<div class="page">
-		<h2>Add Transaction</h2>
-		<form method="POST">
-				{% csrf_token %}
-				<input type="hidden" name="accid" value="{{id}}">
-				<div>
-		    		<input type="number" name="CrAmnt" id="Amnt" placeholder="Amount Received Cr.">
-		    	</div>
-		    	<div>
-		    		<input type="number" name="DrAmnt" id="Amnt" placeholder="Amount Give Dr.">
-		    	</div>
-		    	<div>
-		    		<input type="text" name="desc" id="Amnt" placeholder="Description">
-		    	</div></br>
-				<div>
-		    		<input type="date" name="Cdate" id="Cdate" min="2000-04-01">
-		    	</div>
-		    	<footer>
-		    		<button onclick="this.disabled=true,this.form.submit();" type="submit" id="btn-theme" name="addTr">Add Transaction</button>
-		    		<button id="btn-theme-grey"><a href="/view/{{id}}/{{name}}" id="btn-theme-grey">Discard</a></button>
-		    	</footer>
-		    </form>
-		
+	{%include 'nav-back.html'%}
+	<div class="container">
+    <h3>Add Transaction</h3>
+    <div class="row">
+      <form class="col s12" method="POST" id="form">
+      	{% csrf_token %}
+        <div class="input-field">
+          <i class="material-icons prefix">account_circle</i>
+          <input type="text" value="{{name}}" id="fullname" name="fullname" disabled class="autocomplete">
+          <label for="autocomplete-input">Name</label>
+        </div>
+      	<div class="input-field">
+          <i class="material-icons prefix">arrow_downward</i>
+          <input id="credit" type="number" class="validate" name="CrAmnt">
+          <label for="credit">Amount Received Cr.</label>
+        </div>
+        <div class="input-field debit">
+          <i class="material-icons prefix debit">arrow_upward</i>
+          <input id="debit" type="number" class="validate" name="DrAmnt">
+          <label for="debit">Amount Give Dr.</label>
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">date_range</i>
+          <input type="text" class="datepicker" name="Cdate" placeholder="Select Date" id="Cdate">
+        </div>
+        <div class="input-field default">
+            <i class="material-icons prefix">short_text</i>
+            <textarea id="textarea2" name="desc" class="materialize-textarea" data-length="30"></textarea>
+            <label for="textarea2">Description</label>
+          </div>
+        <a class="btn btn-large waves-effect waves-light purple col s12" onclick="onSubmit()" style="margin-bottom: 10px">Add Transaction</a>
+        <a class="waves-effect waves-light black btn btn-large col s12" href="/view/{{id}}">Discard</a>
+      </form>
+    </div>
+    <script type="text/javascript">
+        document.title = "Add Transaction"
+
+        document.addEventListener('DOMContentLoaded', function() {
+          var elems = document.querySelectorAll('.datepicker');
+          var instances = M.Datepicker.init(elems, {'defaultDate':new Date(),'setDefaultDate':true});
+        });
+
+        $(document).ready(function() {
+          $('input#input_text, textarea#textarea2').characterCounter();
+        });
+
+        function onSubmit(argument) {
+          form = document.getElementById('form');
+          drtxt = document.getElementById('debit').value
+          crtxt = document.getElementById('credit').value
+          dateT = document.getElementById('Cdate').value
+
+          // for credit Transaction
+          if (crtxt=="" && drtxt==""){
+            M.toast({html: 'Error: Please enter some Value'});
+          }
+          else if (crtxt!="" && drtxt!= ""){
+            M.toast({html: 'Error: Either Debit or Credit is Allowed at one Time.'});
+          }
+          else {
+            if (dateT==""){
+              M.toast({html: 'Error: Please Select Date.'});
+            }
+            else{
+              form.submit()
+            }
+          }
+        }
+
+    </script>
+
 	</div>
-	<script type="text/javascript">
-		document.getElementById("Cdate").defaultValue = "{{cdate}}";
-	</script>
-  
 </body>
 </html>

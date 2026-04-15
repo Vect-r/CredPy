@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Add Transaction</title>
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
+</head>
+<body>
+	{% include 'navbar-acc.html' %}
+	<div class="page">
+		<h2>Add Transaction</h2>
+		<form method="POST">
+				{% csrf_token %}
+				<input type="hidden" name="accid" value="{{id}}">
+				<div>
+		    		<input type="number" name="CrAmnt" id="Amnt" placeholder="Amount Received Cr.">
+		    	</div>
+		    	<div>
+		    		<input type="number" name="DrAmnt" id="Amnt" placeholder="Amount Give Dr.">
+		    	</div>
+		    	<div>
+		    		<input type="text" name="desc" id="Amnt" placeholder="Description">
+		    	</div></br>
+				<div>
+		    		<input type="date" name="Cdate" id="Cdate" min="2000-04-01">
+		    	</div>
+		    	<footer>
+		    		<button onclick="this.disabled=true,this.form.submit();" type="submit" id="btn-theme" name="addTr">Add Transaction</button>
+		    		<button id="btn-theme-grey"><a href="/view/{{id}}/{{name}}" id="btn-theme-grey">Discard</a></button>
+		    	</footer>
+		    </form>
+		
+	</div>
+	<script type="text/javascript">
+		document.getElementById("Cdate").defaultValue = "{{cdate}}";
+	</script>
+  
+</body>
+</html>

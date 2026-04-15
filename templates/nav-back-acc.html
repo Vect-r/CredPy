@@ -1,0 +1,22 @@
+<nav>
+    <div class="nav-wrapper blue">
+      <a href="/" class="brand-logo left" style="left: 60px">CredPy</a>
+      <a href="{{callback}}" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">arrow_back</i></a>
+      <a href="#" data-target="dropdown1" class="sidenav-trigger dropdown-trigger right"><i class="material-icons">more_vert</i></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="/reports">Reports</a></li>
+        <li><a href="/notes/index">Cash Counter</a></li>
+        <li><a href="/addQuick">Quick Add</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+  <ul id='dropdown1' class='dropdown-content'>
+    <li><a href="/viewAccount/{{id}}">View</a></li>
+    <li><a href="/editAccount/{{id}}">Edit</a></li>
+    <li><a href="#modal1" class="modal-trigger">Delete</a></li>          
+  </ul>
+<script>
+  $(".dropdown-trigger").dropdown({coverTrigger: false});
+</script>

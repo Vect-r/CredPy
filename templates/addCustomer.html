@@ -1,37 +1,77 @@
 <!DOCTYPE html>
-{% load static %}
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
-	<title>LedPy - Add Account</title>
-</head>
+{%include 'base.html'%}
+<style type="text/css">
+    html, body{
+      overflow-x: hidden;
+    }
+
+    .default input:focus + label {
+      color: purple !important;
+    }
+
+      /* label underline focus color */
+    .default input:focus {
+      border-bottom: 1px solid purple !important;
+      box-shadow: 0 1px 0 0 purple !important;
+    }
+
+    .default .prefix.active{
+      color: purple !important;
+    }
+
+    .default textarea:focus + label {
+      color: purple !important;
+    }
+
+    .default textarea:focus {
+      border-bottom: 1px solid purple !important;
+      box-shadow: 0 1px 0 0 purple !important;
+    }
+    </style>
+
 <body>
-	{% include 'navbar.html' %}
-	<div class="page">
-	<form action='/addAccount' method='post'>
-		<h1 class="new-h1">Add Account</h1>
-		{% csrf_token %}
-		<div class="input-area">
-			<label for="domain">Fullname</label></br>
-			<input type="text" id='name' name="name" placeholder="Enter Fullname">
-		</div>
-		<div class="input-area">
-			<label for="address">Address</label></br>
-			<input type="text" id='address' name="address" placeholder="Enter Address">
-		</div>
-		<div class="input-area">
-			<label for="e-mail">Enter E-mail</label></br>
-			<input type="email" id='e-mail' name="e-mail" placeholder="Enter e-mail">
-		</div>
-		<div class="input-area">
-			<label for="phno">Phone Number</label></br>
-			<input type="text" id='phno' name="phno" placeholder="Enter Phoneno">
-		</div>
-		<button type="submit" onclick="this.disabled=true,this.form.submit();" class="button1">Add</button>
-		<a href="/" class="b-btn">Discard</a>
-	</form>		
+	{% include 'nav-back.html'%}
+	<div class="container">
+		<h3>Add Account</h3>
+    <div class="row">
+      <form class="col s12" action="/addAccount" method="POST">
+      	{%csrf_token%}
+        <div class="input-field default">
+          <i class="material-icons prefix">account_circle</i>
+          <input id="name" name="name" type="text" class="validate">
+          <label for="name">Fullname</label>
+        </div>
+        <div class="input-field default">
+          <i class="material-icons prefix">location_on</i>
+          <textarea id='textarea2' name="address" class="materialize-textarea" data-length="30"></textarea>
+          <label for="textarea2">Address</label>
+        </div>
+        <div class="input-field default">
+          <i class="material-icons prefix">email</i>
+          <input id="email" type="email" name="e-mail" class="validate">
+          <label for="email">Email</label>
+        </div>
+        <div class="input-field default">
+          <i class="material-icons prefix">phone</i>
+          <input id="phone" type="tel" name="phno" class="validate">
+          <label for="phone">Phone No.</label>
+        </div>
+        <button class="btn btn-large waves-effect waves-light purple col s12" type="submit" onclick="M.toast({html: 'Account Added !!'})" name="action" style="margin-bottom: 10px">Add Account</button>
+        <a href="/" class="waves-effect waves-light black btn btn-large col s12">Discard</a>
+      </form>
+    </div>
 	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+  		  $('input#input_text, textarea#textarea2').characterCounter();
+  		});
+
+    Array.prototype.contains = function(element){
+      return this.indexOf(element) > -1;
+    };
+
+    var names = {{data|safe}}
+	</script>
 </body>
 </html>

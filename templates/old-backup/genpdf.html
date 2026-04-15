@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>PDF</title>
+	<style type="text/css">
+		body {
+			font-family: sans-serif;
+			margin: 75px;
+		}
+
+		table {
+  			margin-top: 20px;
+  			border-collapse: collapse;
+  			width: 100%;
+		}
+
+		th, td {
+  			text-align: left;
+  			padding: 8px;
+		}
+
+		th {
+  			border-bottom: solid 2px black;
+		}
+
+		.cr {
+  			background-color: #9CCC65;
+		}
+
+		.dr {
+  			background-color: #ff867f;
+		}
+
+		tr:nth-child(even) {background-color: #f2f2f2;}
+	</style>
+</head>
+<body>
+	<center><h1>Demo</h1></center>
+	<table>
+			<th>ID</th>
+			<th>Date</th>
+			<th>Description</th>
+			<th>Debit</th>
+			<th>Credit</th>
+			<th style="text-align: right;">Balance</th>
+			{% for i,j in data %}
+				<tr>
+					<!--<a onclick="onView(this.id)" name="dd" id="dd{{i.TranID}}" class="tranno">-->
+					<td id="tranno">{{i.TranID}}</td>
+					<td>{{i.Date}}</td>
+					<td>{{i.Desc}}</td>
+					<td class="dr">{{i.DrAmnt}}</td>
+					<td class="cr">{{i.CrAmnt}}</td>
+					<td style="text-align: right;">{{j}}</td>
+				</tr>
+			{% empty %}
+				<h1>No Records Found</h1>
+			{% endfor %}
+			<tfoot style="border-top: solid 2px black;">
+					<td></td>
+					<td></td>
+					<td>Total</td>
+					<td>{{dr}}</td>
+					<td>{{cr}}</td>
+				</tfoot>
+		</table>
+</body>
+</html>

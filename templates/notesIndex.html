@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+{%include 'base.html'%}
+<body>
+{% include 'nav.html' %}
+</body>
+	<div class="container">
+		<h3>Cash Counter</h3>
+		 <table>
+        <thead>
+          <tr>
+              <th>Date</th>
+              <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%for i in data%}
+          <tr onclick="window.location='/notes/view/{{i.0}}'">
+            <td>{{i.1}}</td>
+            <td>&#8377;{{i.2}}</td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table>
+    <div class="fixed-action-btn">
+		<a href="/notes/add" class="btn-floating purple waves-effect waves-circle waves-light btn-large"><i class="large material-icons">account_balance_wallet</i></a>
+	</div>
+	</div>
+</body>
+</html>
